@@ -1,4 +1,4 @@
-# IDAT
+# Inverse distance-based ART with Topology (IDAT)
 
 (c) 2025 Naoki Masuyama
 
