@@ -1,8 +1,5 @@
-# Copyright (c) 2025-2026 Naoki Masuyama
-# SPDX-License-Identifier: MIT
-#
-# This file is part of IDAT.
-# Licensed under the MIT License; see LICENSE in the project root for details.
+% Copyright (c) 2025-2026 Naoki Masuyama
+% SPDX-License-Identifier: MIT
 
 clear all
 
