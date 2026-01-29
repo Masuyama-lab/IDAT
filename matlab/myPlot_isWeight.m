@@ -1,3 +1,6 @@
+% Copyright (c) 2025-2026 Naoki Masuyama
+% SPDX-License-Identifier: MIT
+
 function myPlot_isWeight(DATA, net, num)
     cla;
     
