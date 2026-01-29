@@ -1,3 +1,6 @@
+% Copyright (c) 2025-2026 Naoki Masuyama
+% SPDX-License-Identifier: MIT
+
 classdef IDAT < handle
     % IDAT (Inverse Distance ART with Topology)
     % Implements an ART-based topological clustering algorithm (IDAT) with automatic adjustment of the vigilance parameter.
