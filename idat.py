@@ -1,3 +1,9 @@
+# Copyright (c) 2025-2026 Naoki Masuyama
+# SPDX-License-Identifier: MIT
+#
+# This file is part of IDAT.
+# Licensed under the MIT License; see LICENSE in the project root for details.
+
 import numpy as np
 from sklearn.base import BaseEstimator, ClusterMixin
 from scipy.spatial.distance import cdist
