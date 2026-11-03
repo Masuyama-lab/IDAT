@@ -1,15 +1,18 @@
-function [AMI, ARI] = Clustering_Evaluation_Metrics(ground_truth, predicted)
+% Copyright (c) 2025-2026 Naoki Masuyama
+% SPDX-License-Identifier: MIT
+
+function [AMI, ARI] = clusteringEvaluationMetrics(groundTruth, predicted)
 
 % Compute Adjusted Mutual Information
-AMI = AdjustedMutualInformation(ground_truth, predicted);
+AMI = adjustedMutualInformation(groundTruth, predicted);
 
 % Compute Adjusted Rand Index
-ARI = AdjustedRandIndex(ground_truth, predicted);
+ARI = adjustedRandIndex(groundTruth, predicted);
 
 end
 
 
-function AMI = AdjustedMutualInformation(gt, pred)
+function AMI = adjustedMutualInformation(gt, pred)
 % Compute Adjusted Mutual Information (AMI) aligned with scikit-learn default
 % average_method = 'arithmetic' and natural logarithm.
 
@@ -25,17 +28,17 @@ if n == 0
     return;
 end
 
-classes_gt = unique(gt);
-classes_pred = unique(pred);
+classesGt = unique(gt);
+classesPred = unique(pred);
 
-n_gt = length(classes_gt);
-n_pred = length(classes_pred);
+nGt = length(classesGt);
+nPred = length(classesPred);
 
-contingency = zeros(n_gt, n_pred);
-for i = 1:n_gt
-    gi = (gt == classes_gt(i));
-    for j = 1:n_pred
-        contingency(i, j) = sum(gi & (pred == classes_pred(j)));
+contingency = zeros(nGt, nPred);
+for i = 1:nGt
+    gi = (gt == classesGt(i));
+    for j = 1:nPred
+        contingency(i, j) = sum(gi & (pred == classesPred(j)));
     end
 end
 
@@ -44,8 +47,8 @@ b = sum(contingency, 1);
 
 % Mutual Information (natural log)
 MI = 0;
-for i = 1:n_gt
-    for j = 1:n_pred
+for i = 1:nGt
+    for j = 1:nPred
         nij = contingency(i, j);
         if nij > 0
             MI = MI + (nij / n) * log((n * nij) / (a(i) * b(j)));
@@ -57,14 +60,14 @@ end
 pa = a / n;
 pb = b / n;
 
-H_gt = -sum(pa(pa > 0) .* log(pa(pa > 0)));
-H_pred = -sum(pb(pb > 0) .* log(pb(pb > 0)));
+entropyGt = -sum(pa(pa > 0) .* log(pa(pa > 0)));
+entropyPred = -sum(pb(pb > 0) .* log(pb(pb > 0)));
 
 % Expected Mutual Information under hypergeometric model
-EMI = ExpectedMutualInformation(a, b, n);
+EMI = expectedMutualInformation(a, b, n);
 
 % scikit-learn default: average_method = 'arithmetic'
-normalizer = 0.5 * (H_gt + H_pred);
+normalizer = 0.5 * (entropyGt + entropyPred);
 
 if abs(normalizer - EMI) < 1.0e-15
     % Degenerate case: both clusterings have zero entropy
@@ -89,7 +92,7 @@ end
 end
 
 
-function EMI = ExpectedMutualInformation(a, b, n)
+function EMI = expectedMutualInformation(a, b, n)
 % Compute expected mutual information E[MI] for contingency marginals a, b.
 
 a = a(:);
@@ -100,7 +103,7 @@ C = length(b);
 
 EMI = 0;
 
-logC_n_b = lognchoosek(n, b); % 1 x C
+logNChooseB = lognchoosek(n, b); % 1 x C
 
 for i = 1:R
     ai = a(i);
@@ -108,21 +111,21 @@ for i = 1:R
     for j = 1:C
         bj = b(j);
 
-        nij_min = max(0, ai + bj - n);
-        nij_max = min(ai, bj);
+        nijMin = max(0, ai + bj - n);
+        nijMax = min(ai, bj);
 
-        if nij_min > nij_max
+        if nijMin > nijMax
             continue;
         end
 
-        for nij = nij_min:nij_max
+        for nij = nijMin:nijMax
             if nij == 0
                 continue;
             end
 
             % Hypergeometric probability:
             % P(nij) = C(ai, nij) * C(n-ai, bj-nij) / C(n, bj)
-            logP = lognchoosek(ai, nij) + lognchoosek(n - ai, bj - nij) - logC_n_b(j);
+            logP = lognchoosek(ai, nij) + lognchoosek(n - ai, bj - nij) - logNChooseB(j);
             P = exp(logP);
 
             EMI = EMI + (nij / n) * log((n * nij) / (ai * bj)) * P;
@@ -133,7 +136,7 @@ end
 end
 
 
-function ARI = AdjustedRandIndex(gt, pred)
+function ARI = adjustedRandIndex(gt, pred)
 % Compute Adjusted Rand Index (ARI)
 
 gt = gt(:);
@@ -148,38 +151,38 @@ if n < 2
     return;
 end
 
-classes_gt = unique(gt);
-classes_pred = unique(pred);
+classesGt = unique(gt);
+classesPred = unique(pred);
 
-n_gt = length(classes_gt);
-n_pred = length(classes_pred);
+nGt = length(classesGt);
+nPred = length(classesPred);
 
-contingency = zeros(n_gt, n_pred);
-for i = 1:n_gt
-    gi = (gt == classes_gt(i));
-    for j = 1:n_pred
-        contingency(i, j) = sum(gi & (pred == classes_pred(j)));
+contingency = zeros(nGt, nPred);
+for i = 1:nGt
+    gi = (gt == classesGt(i));
+    for j = 1:nPred
+        contingency(i, j) = sum(gi & (pred == classesPred(j)));
     end
 end
 
-sum_comb = sum(nchoosek2(contingency(:)));
-sum_comb_c = sum(nchoosek2(sum(contingency, 2)));
-sum_comb_k = sum(nchoosek2(sum(contingency, 1)));
+sumComb = sum(nchoosek2(contingency(:)));
+sumCombC = sum(nchoosek2(sum(contingency, 2)));
+sumCombK = sum(nchoosek2(sum(contingency, 1)));
 
-total_comb = nchoosek(n, 2);
+totalComb = nchoosek(n, 2);
 
-expected_index = (sum_comb_c * sum_comb_k) / total_comb;
-max_index = 0.5 * (sum_comb_c + sum_comb_k);
+expectedIndex = (sumCombC * sumCombK) / totalComb;
+maxIndex = 0.5 * (sumCombC + sumCombK);
 
-den = (max_index - expected_index);
+den = (maxIndex - expectedIndex);
 if abs(den) < 1.0e-15
-    if abs(sum_comb - expected_index) < 1.0e-15
+    if abs(sumComb - expectedIndex) < 1.0e-15
         ARI = 1.0;
     else
         ARI = 0.0;
     end
 else
-    ARI = (sum_comb - expected_index) / den;
+    ARI = (sumComb - expectedIndex) / den;
 end
 
 end
