@@ -127,7 +127,7 @@ java MainStationary
 ## Example output
 
 The following outputs are for Iris. The training time depends on the machine.
-MATLAB, Python, C++, and Java use different random number generators. Therefore, the shuffled orders differ between the four versions, and so do the numbers.
+The numbers differ between the four versions only because each version shuffles the samples with its own random number generator. When the four versions are given the samples in the same order, they give the same numbers. We confirmed this for Iris and OptDigits in both settings.
 In C++, the order given by `std::shuffle` also depends on the standard library.
 
 MATLAB, `mainStationary.m`
