@@ -126,44 +126,9 @@ java MainStationary
 
 ## Example output
 
-The following outputs are for Iris. The training time depends on the machine.
-The numbers differ between the four versions only because each version shuffles the samples with its own random number generator. When the four versions are given the samples in the same order, they give the same numbers. We confirmed this for Iris and OptDigits in both settings.
-In C++, the order given by `std::shuffle` also depends on the standard library.
+The results below were obtained by giving the four versions the samples in the same order, namely the order that the Python scripts produce with the trial number as the seed. All four versions gave the same numbers, so each result is shown once. The main scripts of the other languages shuffle the samples with their own random number generators, so their runs give different numbers.
 
-MATLAB, `mainStationary.m`
-
-```
-=========== Stationary ============
-# classes: 3
-Average results over 10 runs
-Average # all nodes:     22.4 ± 3.893
-Average # active nodes:  9.2 ± 2.201
-Average # clusters:      6.5 ± 1.2693
-         Average AMI:    0.67141 ± 0.035366
-         Average ARI:    0.60926 ± 0.050334
-        Average Time:    0.27162 ± 0.039101
-```
-
-MATLAB, `mainNonstationary.m`
-
-```
-=========== Nonstationary ============
-# classes: 3
-Average results over 10 runs
-Average # all nodes:     38 ± 5.1208
-Average # active nodes:  6.1 ± 1.4491
-Average # clusters:      4 ± 0.8165
-         Average AMI:    0.55078 ± 0.074403
-         Average ARI:    0.49179 ± 0.072298
-        Average Time:    0.26621 ± 0.0307
-
-Average Incremental AMI: 0.58846 ± 0.10132
-Average Incremental ARI: 0.56536 ± 0.094575
-  Backward Transfer AMI: -0.056513 ± 0.09397
-  Backward Transfer ARI: -0.11035 ± 0.14141
-```
-
-Python, `main_stationary.py`
+Iris, stationary setting
 
 ```
 =========== Stationary ============
@@ -174,10 +139,9 @@ Average # active nodes:  9.4000 ± 1.3499
 Average # clusters:      6.2000 ± 1.3166
          Average AMI:    0.6920 ± 0.0317
          Average ARI:    0.6135 ± 0.0762
-        Average Time:    0.0036 ± 0.0001
 ```
 
-Python, `main_nonstationary.py`
+Iris, nonstationary setting
 
 ```
 =========== Nonstationary ============
@@ -188,7 +152,6 @@ Average # active nodes:  6.9000 ± 1.5951
 Average # clusters:      3.3000 ± 0.4830
          Average AMI:    0.5688 ± 0.1044
          Average ARI:    0.4911 ± 0.1410
-        Average Time:    0.0040 ± 0.0008
 
 Average Incremental AMI: 0.6657 ± 0.0535
 Average Incremental ARI: 0.6301 ± 0.0688
@@ -196,84 +159,19 @@ Average Incremental ARI: 0.6301 ± 0.0688
   Backward Transfer ARI: -0.2086 ± 0.1622
 ```
 
-C++, `main_stationary.cpp`
-
-```
-=========== Stationary ============
-# classes: 3
-Average results over 10 runs
-Average # all nodes:     24.9000 ± 3.8715
-Average # active nodes:  9.0000 ± 2.5820
-Average # clusters:      5.9000 ± 2.6437
-         Average AMI:    0.6894 ± 0.0552
-         Average ARI:    0.6159 ± 0.0947
-        Average Time:    0.0002 ± 0.0000
-```
-
-C++, `main_nonstationary.cpp`
-
-```
-=========== Nonstationary ============
-# classes: 3
-Average results over 10 runs
-Average # all nodes:     37.9000 ± 1.3703
-Average # active nodes:  7.0000 ± 0.6667
-Average # clusters:      4.1000 ± 1.3703
-         Average AMI:    0.5374 ± 0.0789
-         Average ARI:    0.4528 ± 0.0810
-        Average Time:    0.0006 ± 0.0001
-
-Average Incremental AMI: 0.6073 ± 0.0256
-Average Incremental ARI: 0.5510 ± 0.0298
-  Backward Transfer AMI: -0.1048 ± 0.1401
-  Backward Transfer ARI: -0.1473 ± 0.1325
-```
-
-Java, `MainStationary.java`
-
-```
-=========== Stationary ============
-# classes: 3
-Average results over 10 runs
-Average # all nodes:     25.2000 ± 4.8488
-Average # active nodes:  8.6000 ± 2.2706
-Average # clusters:      5.5000 ± 1.9579
-         Average AMI:    0.7027 ± 0.0528
-         Average ARI:    0.6382 ± 0.0940
-        Average Time:    0.0006 ± 0.0005
-```
-
-Java, `MainNonstationary.java`
-
-```
-=========== Nonstationary ============
-# classes: 3
-Average results over 10 runs
-Average # all nodes:     33.6000 ± 2.9515
-Average # active nodes:  8.4000 ± 1.1738
-Average # clusters:      4.0000 ± 1.4142
-         Average AMI:    0.5764 ± 0.0674
-         Average ARI:    0.5135 ± 0.0861
-        Average Time:    0.0007 ± 0.0005
-
-Average Incremental AMI: 0.6561 ± 0.1123
-Average Incremental ARI: 0.6286 ± 0.1359
-  Backward Transfer AMI: -0.1194 ± 0.1906
-  Backward Transfer ARI: -0.1726 ± 0.2035
-```
-
 The following table shows the mean values over 10 trials for OptDigits (10 classes).
 
-| Setting | Version | # all nodes | # active nodes | # clusters | AMI | ARI | Incremental AMI | Incremental ARI | BWT AMI | BWT ARI |
-|---|---|---|---|---|---|---|---|---|---|---|
-| Stationary | MATLAB | 244.1 | 73.3 | 26.8 | 0.765 | 0.660 | | | | |
-| Stationary | Python | 227.9 | 69.9 | 26.2 | 0.774 | 0.684 | | | | |
-| Stationary | C++ | 257.7 | 74.6 | 29.8 | 0.758 | 0.647 | | | | |
-| Stationary | Java | 261.5 | 78.6 | 26.4 | 0.767 | 0.664 | | | | |
-| Nonstationary | MATLAB | 693.7 | 127.4 | 30.1 | 0.776 | 0.702 | 0.757 | 0.716 | 0.021 | −0.015 |
-| Nonstationary | Python | 668.2 | 122.4 | 30.5 | 0.768 | 0.684 | 0.737 | 0.675 | 0.035 | 0.011 |
-| Nonstationary | C++ | 661.9 | 119.2 | 27.7 | 0.770 | 0.686 | 0.755 | 0.712 | 0.017 | −0.029 |
-| Nonstationary | Java | 706.3 | 130.7 | 36.3 | 0.753 | 0.653 | 0.716 | 0.635 | 0.041 | 0.020 |
+| Setting | # all nodes | # active nodes | # clusters | AMI | ARI | Incremental AMI | Incremental ARI | BWT AMI | BWT ARI |
+|---|---|---|---|---|---|---|---|---|---|
+| Stationary | 227.9 | 69.9 | 26.2 | 0.774 | 0.684 | | | | |
+| Nonstationary | 668.2 | 122.4 | 30.5 | 0.768 | 0.684 | 0.737 | 0.675 | 0.035 | 0.011 |
+
+The line with the training time is omitted above, because the training time depends on the language and on the machine. For OptDigits, the mean training time per trial in seconds on one machine was as follows.
+
+| Setting | MATLAB | Python | C++ | Java |
+|---|---|---|---|---|
+| Stationary | 0.56 | 0.18 | 0.09 | 0.12 |
+| Nonstationary | 0.38 | 0.33 | 0.10 | 0.13 |
 
 ## Notes
 
