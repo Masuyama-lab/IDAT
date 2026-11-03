@@ -58,7 +58,8 @@ classdef IDAT < handle
     %
     % The constants below are the values used in the paper. They are not meant to be tuned.
     %
-    % Requires the Statistics and Machine Learning Toolbox (pdist, pdist2, quantile, squareform).
+    % Requires the Statistics and Machine Learning Toolbox for pdist, pdist2, and squareform. In
+    % releases before R2022a, quantile also requires this toolbox.
     %
     % Reference
     %   N. Masuyama, Y. Toda, Y. Nojima, and H. Ishibuchi, "An adaptive resonance theory-based

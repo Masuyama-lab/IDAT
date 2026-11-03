@@ -38,7 +38,7 @@ java/
 
 ## Requirements
 
-- MATLAB: tested with MATLAB R2025b. The Statistics and Machine Learning Toolbox is required. Without the Parallel Computing Toolbox, `parfor` runs as an ordinary `for` loop.
+- MATLAB: tested with MATLAB R2025b. The Statistics and Machine Learning Toolbox is required, because `IDAT.m` uses `pdist`, `pdist2`, and `squareform`. In releases before R2022a, `quantile` also requires this toolbox. Without the Parallel Computing Toolbox, `parfor` runs as an ordinary `for` loop.
 - Python: Python 3.10 or later and the packages in `python/requirements.txt` (numpy, scipy, scikit-learn, and joblib).
 - C++: a compiler that supports C++17, and make. No other library is required.
 - Java: JDK 11 or later. No other library is required.
